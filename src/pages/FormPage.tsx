@@ -1,7 +1,8 @@
-import type React from 'react'
+import React from 'react'
+import { Input } from '@mui/joy'
 
 const FormPage: React.FC<Record<string, never>> = () => {
-  return 'hello world'
+  return <Input />
 }
 
 export default FormPage

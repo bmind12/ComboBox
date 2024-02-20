@@ -1,0 +1,26 @@
+{
+  "resources": {
+    "en": {
+      "translation": {
+        "userForm": {
+          "name": {
+            "labelText": "Your first name",
+            "placeholder": "Name"
+          }
+        }
+      }
+    },
+    "cz": {
+      "translation": {
+        "userForm": {
+          "name": {
+            "labelText": "Vaše křestní jméno",
+            "placeholder": "Jméno"
+          }
+        }
+      }
+    }
+  },
+  "lng": "cz",
+  "fallbackLng": "en"
+}
