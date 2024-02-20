@@ -1,9 +1,9 @@
+import i18n from 'i18next'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import i18n from 'i18next'
-import { initReactI18next, I18nextProvider } from 'react-i18next'
-import resources from './locales/index.json'
+import { I18nextProvider, initReactI18next } from 'react-i18next'
 import App from './App.tsx'
+import resources from './locales/index.json'
 
 const root = document.getElementById('root')
 
