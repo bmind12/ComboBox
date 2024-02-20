@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import i18n from 'i18next'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -5,6 +6,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next'
 import App from './App.tsx'
 import resources from './locales/index.json'
 
+const queryClient = new QueryClient()
 const root = document.getElementById('root')
 
 i18n
@@ -17,9 +19,11 @@ i18n
 if (root !== null && root !== undefined) {
   ReactDOM.createRoot(root).render(
     <React.StrictMode>
-      <I18nextProvider i18n={i18n}>
-        <App />
-      </I18nextProvider>
+      <QueryClientProvider client={queryClient}>
+        <I18nextProvider i18n={i18n}>
+          <App />
+        </I18nextProvider>
+      </QueryClientProvider>
     </React.StrictMode>
   )
 }
