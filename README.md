@@ -1,30 +1,25 @@
-# React + TypeScript + Vite
+# Challenge
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project aims to showcase expertise in `TypeScript`, `React`, and the ability to integrate with libraries based on their documentation. The primary objective is to create a `ComboBox` component according to the given specifications.
 
-Currently, two official plugins are available:
+## Technologies Required
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `TypeScript`: Proper typing is essential. The use of `any` should be avoided wherever possible.
+- `React Hook Form` (or a similar library for form management).
+- `Axios` for making `HTTP` requests.
+- `TanStack Query` for fetching, caching, and updating data in an efficient manner.
+- Additional libraries known to the developer can be used as long as the required ones are included.
 
-## Expanding the ESLint configuration
+## Component Functionality Overview
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+The `ComboBox` component should allow users to type in a text input field and dynamically fetch a list of universities from a specified endpoint based on the user's input. It should display these universities in a dropdown panel, where the user can select an option. The component must handle empty and erroneous inputs gracefully, offering a list of all Czech universities for empty inputs and displaying error states as required. It should also be integrable with React Hook Form or a similar form management library for validation purposes, and support disabled and error states. The design and functionality should adapt to different screen sizes and user interactions, ensuring a seamless and user-friendly experience.
 
-- Configure the top-level `parserOptions` property like this:
+### How to run
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```bash
+# Install dependencies
+npm install
+
+# Run the project
+npm run dev
 ```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
