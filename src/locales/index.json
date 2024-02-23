@@ -6,6 +6,10 @@
           "name": {
             "labelText": "Your first name",
             "placeholder": "Name"
+          },
+          "university": {
+            "labelText": "University you are attending",
+            "placeholder": "University"
           }
         }
       }
@@ -16,6 +20,10 @@
           "name": {
             "labelText": "Vaše křestní jméno",
             "placeholder": "Jméno"
+          },
+          "university": {
+            "labelText": "Univerzita, na kterou chodíte",
+            "placeholder": "Univerzita"
           }
         }
       }
