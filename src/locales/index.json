@@ -3,13 +3,15 @@
     "en": {
       "translation": {
         "userForm": {
-          "name": {
-            "labelText": "Your first name",
-            "placeholder": "Name"
-          },
-          "university": {
-            "labelText": "University you are attending",
-            "placeholder": "University"
+          "fields": {
+            "name": {
+              "labelText": "Your first name",
+              "placeholder": "Name"
+            },
+            "university": {
+              "labelText": "University you are attending",
+              "placeholder": "University"
+            }
           }
         }
       }
@@ -17,13 +19,15 @@
     "cz": {
       "translation": {
         "userForm": {
-          "name": {
-            "labelText": "Vaše křestní jméno",
-            "placeholder": "Jméno"
-          },
-          "university": {
-            "labelText": "Univerzita, na kterou chodíte",
-            "placeholder": "Univerzita"
+          "fields": {
+            "name": {
+              "labelText": "Vaše křestní jméno",
+              "placeholder": "Jméno"
+            },
+            "university": {
+              "labelText": "Univerzita, na kterou chodíte",
+              "placeholder": "Univerzita"
+            }
           }
         }
       }

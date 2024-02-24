@@ -1,23 +1,27 @@
-import Card from '@mui/joy/Card'
-import Container from '@mui/joy/Container'
+import { Box, Sheet } from '@mui/joy'
 import React from 'react'
 import UserForm from '../components/UserForm'
 
 const FormPage: React.FC<Record<string, never>> = () => {
   return (
-    <Container
+    <Box
       sx={{
         height: '100vh',
         display: 'flex',
-        flexDirection: 'column',
         justifyContent: 'center',
+        alignItems: 'center',
       }}
-      maxWidth="sm"
     >
-      <Card size="sm" color="primary" invertedColors={true}>
+      <Sheet
+        variant="soft"
+        sx={{
+          p: 4,
+          borderRadius: 1,
+        }}
+      >
         <UserForm />
-      </Card>
-    </Container>
+      </Sheet>
+    </Box>
   )
 }
 
