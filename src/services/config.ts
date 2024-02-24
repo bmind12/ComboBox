@@ -11,3 +11,11 @@ export const API = {
 export const QUERY_KEYS = {
   UNIVERSITIES: 'universities',
 }
+
+export const TIMERS = {
+  DEFAULT: { DEBOUNCE: 500 },
+}
+
+export const KEYS = {
+  ENTER: 'Enter',
+}
