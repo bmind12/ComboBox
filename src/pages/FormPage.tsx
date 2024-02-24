@@ -1,6 +1,6 @@
-import React from 'react'
 import Card from '@mui/joy/Card'
 import Container from '@mui/joy/Container'
+import React from 'react'
 import UserForm from '../components/UserForm'
 
 const FormPage: React.FC<Record<string, never>> = () => {

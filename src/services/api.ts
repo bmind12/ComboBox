@@ -13,12 +13,12 @@ export interface University {
 export const fetchUniversitiesByName = async (
   name: string
 ): Promise<University[]> => {
-  console.log('### universityName:', name)
   const response = await axiosClient.get<University[]>(API.ENDPOINTS.SEARCH, {
     params: {
       country: API.DEFAULT_PARAMS.COUNTRY,
       name,
     },
   })
+
   return response.data
 }
