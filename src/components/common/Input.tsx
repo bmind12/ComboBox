@@ -1,71 +1,50 @@
-import {
-  Box,
-  FormHelperText,
-  FormLabel,
-  Input,
-  type InputProps,
-} from '@mui/joy'
-import { type SxProps } from '@mui/system'
-import React, { type ReactNode } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
+import classNames from 'classnames'
+import React from 'react'
+import './Input.css'
 
-interface MyInputProps extends InputProps {
-  containerSx?: SxProps
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  containerStyle?: React.CSSProperties
   error?: boolean
+  errorText?: string
   helperText?: string
   labelText?: string
-  name: string
-  sx?: SxProps
 }
 
-const MyInput: React.FC<MyInputProps> = ({
-  containerSx,
+const Input: React.FC<InputProps> = ({
+  containerStyle,
+  disabled,
   error,
+  errorText,
   helperText,
   id,
   labelText,
-  name,
-  onBlur,
-  onFocus,
-  sx,
+  className,
   ...rest
-}): ReactNode => {
-  const { control } = useFormContext()
+}) => {
+  const inputClass = classNames({
+    input: true,
+    'input-error': error,
+  })
 
   return (
-    <Box sx={{ mb: 1, ...containerSx }}>
+    <div style={{ ...containerStyle }}>
       {labelText !== undefined && (
-        <FormLabel sx={{ mb: 1 }} htmlFor={id}>
+        <label className="label" htmlFor={id}>
           {labelText}
-        </FormLabel>
+        </label>
       )}
-      <Controller
-        name={name}
-        control={control}
-        render={({ field }) => (
-          <Input
-            id={id}
-            sx={sx}
-            onFocus={event => {
-              if (onFocus !== undefined) {
-                onFocus(event)
-              }
-            }}
-            {...field}
-            {...rest}
-            onBlur={event => {
-              if (onBlur !== undefined) {
-                onBlur(event)
-              }
-              field.onBlur()
-            }}
-          />
-        )}
-      />
-      {error === true && <FormHelperText>{helperText}</FormHelperText>}
-    </Box>
+      <div>
+        <input
+          id={id}
+          className={classNames(inputClass, className)}
+          disabled={disabled}
+          {...rest}
+        />
+      </div>
+      {error === true && <span className="error-text">{errorText}</span>}
+    </div>
   )
 }
 
-export type { MyInputProps as InputProps }
-export default MyInput
+export { type InputProps }
+export default Input

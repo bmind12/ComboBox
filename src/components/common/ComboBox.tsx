@@ -1,11 +1,12 @@
 import { Box, CircularProgress, MenuItem, MenuList, Typography } from '@mui/joy'
-import React, { type ReactNode, useEffect, useRef, useState } from 'react'
-import { useFormContext } from 'react-hook-form'
+import React, { useEffect, useRef, useState, type ReactNode } from 'react'
+import { Controller, useFormContext } from 'react-hook-form'
 import Input, { type InputProps } from './Input'
 
 interface ComboboxProps extends InputProps {
   isError: boolean
   isLoading: boolean
+  name: string
   onChangeHandler: (value: string) => void
   options?: Array<{
     value: string
@@ -16,14 +17,15 @@ interface ComboboxProps extends InputProps {
 const ComboBox: React.FC<ComboboxProps> = ({
   isError,
   isLoading,
+  name,
   onChangeHandler,
   options,
   ...rest
 }) => {
-  const { setValue } = useFormContext()
+  const { control, setValue } = useFormContext()
   const inputRef = useRef<HTMLElement>(null)
   const [inputWidth, setInputWidth] = useState(100)
-  const [shouwMenuList, setShowMenuList] = useState(false)
+  const [showMenuList, setShowMenuList] = useState(false)
 
   useEffect(() => {
     if (inputRef.current !== null) {
@@ -33,7 +35,7 @@ const ComboBox: React.FC<ComboboxProps> = ({
 
   const handleItemClick = (value: string): void => {
     onChangeHandler(value)
-    setValue(rest.name, value, { shouldDirty: true })
+    setValue(name, value, { shouldDirty: true, shouldTouch: true })
   }
 
   const onFocusHandler = (): void => {
@@ -76,19 +78,29 @@ const ComboBox: React.FC<ComboboxProps> = ({
   }
 
   const shouldDisplayMenuList =
-    shouwMenuList && !isError && !isLoading && (options?.length ?? 0) > 0
+    showMenuList && !isError && !isLoading && (options?.length ?? 0) > 0
 
   return (
     <Box ref={inputRef}>
-      <Input
-        {...rest}
-        onFocus={onFocusHandler}
-        onBlur={onBlurHandler}
-        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-          // override the onChange event to call onOptionSelect
-          setValue(rest.name, event.target.value, { shouldDirty: true })
-          onChangeHandler(event.target.value)
-        }}
+      <Controller
+        name={name}
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <Input
+            {...rest}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+              onChangeHandler(event.target.value)
+              onChange(event)
+            }}
+            onBlur={() => {
+              onBlur()
+              onBlurHandler()
+            }}
+            value={value}
+            onFocus={onFocusHandler}
+            errorText="Error message"
+          />
+        )}
       />
       {shouldDisplayMenuList && (
         <Box sx={{ width: inputWidth, position: 'absolute', zIndex: 1 }}>
