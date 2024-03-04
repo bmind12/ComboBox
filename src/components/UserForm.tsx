@@ -1,6 +1,6 @@
 import { DevTool } from '@hookform/devtools'
-import React, { useState, type ReactNode } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import React, { useState } from 'react'
+import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useDebounce from '../hooks/useDebounce'
 import useUniversities from '../hooks/useUniversities'
@@ -12,7 +12,7 @@ const USER_FORM_FIELDS = {
   UNIVERSITY: 'university',
 }
 
-const UserForm: React.FC<Record<string, never>> = (): ReactNode => {
+const UserForm: React.FC<Record<string, never>> = (): React.ReactNode => {
   const { t } = useTranslation()
   const methods = useForm({
     defaultValues: {
@@ -20,7 +20,7 @@ const UserForm: React.FC<Record<string, never>> = (): ReactNode => {
       [USER_FORM_FIELDS.UNIVERSITY]: '',
     },
   })
-  const [universityName, setUniversityName] = useState('') // TODO: consider abstracting this to a combobox wrapper to avoid excessive rerenders of the whole form
+  const [universityName, setUniversityName] = useState('')
   const debouncedUniversityName = useDebounce(universityName, 500)
   const {
     data: universities,
@@ -31,13 +31,20 @@ const UserForm: React.FC<Record<string, never>> = (): ReactNode => {
   return (
     <FormProvider {...methods}>
       <form>
-        <Input
-          id={USER_FORM_FIELDS.NAME}
+        <Controller
           name={USER_FORM_FIELDS.NAME}
-          labelText={t('userForm.fields.name.labelText')}
-          placeholder={t('userForm.fields.name.placeholder')}
-          disabled={methods.formState.isSubmitting}
-          containerSx={{ mb: 2 }}
+          control={methods.control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              id={USER_FORM_FIELDS.NAME}
+              labelText={t('userForm.fields.name.labelText')}
+              placeholder={t('userForm.fields.name.placeholder')}
+              disabled={methods.formState.isSubmitting}
+              onChange={onChange}
+              onBlur={onBlur}
+              value={value}
+            />
+          )}
         />
         <ComboBox
           id={USER_FORM_FIELDS.UNIVERSITY}
