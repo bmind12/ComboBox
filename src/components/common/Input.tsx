@@ -6,7 +6,6 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   containerStyle?: React.CSSProperties
   error?: boolean
   errorText?: string
-  helperText?: string
   labelText?: string
 }
 
@@ -15,16 +14,18 @@ const Input: React.FC<InputProps> = ({
   disabled,
   error,
   errorText,
-  helperText,
   id,
   labelText,
   className,
   ...rest
-}) => {
-  const inputClass = classNames({
-    input: true,
-    'input-error': error,
-  })
+}): React.ReactNode => {
+  const inputClass = classNames(
+    {
+      input: true,
+      'input-error': error,
+    },
+    className
+  )
 
   return (
     <div style={{ ...containerStyle }}>
@@ -33,14 +34,7 @@ const Input: React.FC<InputProps> = ({
           {labelText}
         </label>
       )}
-      <div>
-        <input
-          id={id}
-          className={classNames(inputClass, className)}
-          disabled={disabled}
-          {...rest}
-        />
-      </div>
+      <input id={id} className={inputClass} disabled={disabled} {...rest} />
       {error === true && <span className="error-text">{errorText}</span>}
     </div>
   )

@@ -21,7 +21,7 @@ const ComboBox: React.FC<ComboboxProps> = ({
   onChangeHandler,
   options,
   ...rest
-}) => {
+}): React.ReactNode => {
   const { control, setValue } = useFormContext()
   const inputRef = useRef<HTMLElement>(null)
   const [inputWidth, setInputWidth] = useState(100)
