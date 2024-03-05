@@ -1,11 +1,11 @@
 import { DevTool } from '@hookform/devtools'
 import React, { useState } from 'react'
-import { Controller, FormProvider, useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useDebounce from '../hooks/useDebounce'
 import useUniversities from '../hooks/useUniversities'
 import ComboBox from './common/ComboBox'
-import Input from './common/Input'
+import ReactHookFormInput from './react-hook-form/Input'
 
 const USER_FORM_FIELDS = {
   NAME: 'name',
@@ -31,20 +31,13 @@ const UserForm: React.FC<Record<string, never>> = (): React.ReactNode => {
   return (
     <FormProvider {...methods}>
       <form>
-        <Controller
-          name={USER_FORM_FIELDS.NAME}
+        <ReactHookFormInput
           control={methods.control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              id={USER_FORM_FIELDS.NAME}
-              labelText={t('userForm.fields.name.labelText')}
-              placeholder={t('userForm.fields.name.placeholder')}
-              disabled={methods.formState.isSubmitting}
-              onChange={onChange}
-              onBlur={onBlur}
-              value={value}
-            />
-          )}
+          disabled={methods.formState.isSubmitting}
+          id={USER_FORM_FIELDS.NAME}
+          labelText={t('userForm.fields.name.labelText')}
+          name={USER_FORM_FIELDS.NAME}
+          placeholder={t('userForm.fields.name.placeholder')}
         />
         <ComboBox
           id={USER_FORM_FIELDS.UNIVERSITY}
