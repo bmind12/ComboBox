@@ -1,5 +1,5 @@
-import React from 'react'
-import { type Control, Controller } from 'react-hook-form'
+import React, { FocusEventHandler } from 'react'
+import { Controller, type Control } from 'react-hook-form'
 import Input from '../common/Input'
 
 interface ReactHookFormInputProps
@@ -7,6 +7,9 @@ interface ReactHookFormInputProps
   control: Control<Record<string, string>, any, Record<string, string>>
   labelText?: string
   name: string
+  onBlurCb?: () => void
+  onChangeCb?: (value: string) => void
+  onFocus?: FocusEventHandler<HTMLInputElement>
 }
 
 const ReactHookFormInput: React.FC<ReactHookFormInputProps> = ({
@@ -15,6 +18,9 @@ const ReactHookFormInput: React.FC<ReactHookFormInputProps> = ({
   labelText,
   name,
   placeholder,
+  onBlurCb,
+  onChangeCb,
+  onFocus,
 }): React.ReactNode => {
   return (
     <Controller
@@ -26,8 +32,15 @@ const ReactHookFormInput: React.FC<ReactHookFormInputProps> = ({
           labelText={labelText}
           placeholder={placeholder}
           disabled={disabled}
-          onChange={onChange}
-          onBlur={onBlur}
+          onChange={event => {
+            onChange(event)
+            onChangeCb && onChangeCb(event.target.value)
+          }}
+          onFocus={onFocus}
+          onBlur={() => {
+            onBlur()
+            onBlurCb && onBlurCb()
+          }}
           value={value}
         />
       )}
