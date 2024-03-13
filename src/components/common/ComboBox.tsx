@@ -1,28 +1,28 @@
 import { Box, CircularProgress, MenuItem, MenuList, Typography } from '@mui/joy'
-import React, { useEffect, useRef, useState, type ReactNode } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
+import React, { ReactNode, useEffect, useRef, useState } from 'react'
 import Input, { type InputProps } from './Input'
 
 interface ComboboxProps extends InputProps {
   isError: boolean
   isLoading: boolean
   name: string
-  onChangeHandler: (value: string) => void
-  options?: Array<{
-    value: string
-    id?: string
-  }>
+  onChangeCb?: (value: string) => void
+  customSetValue?: (...args: any[]) => unknown
+  options?: Array<{ value: string; id?: string }>
+  renderCustomInput?: (...args: any[]) => React.ReactNode
 }
 
 const ComboBox: React.FC<ComboboxProps> = ({
   isError,
   isLoading,
   name,
-  onChangeHandler,
+  onChangeCb,
+  customSetValue,
   options,
+  renderCustomInput,
   ...rest
 }): React.ReactNode => {
-  const { control, setValue } = useFormContext()
+  const [value, setValue] = useState('')
   const inputRef = useRef<HTMLElement>(null)
   const [inputWidth, setInputWidth] = useState(100)
   const [showMenuList, setShowMenuList] = useState(false)
@@ -33,16 +33,18 @@ const ComboBox: React.FC<ComboboxProps> = ({
     }
   }, [])
 
-  const handleItemClick = (value: string): void => {
-    onChangeHandler(value)
-    setValue(name, value, { shouldDirty: true, shouldTouch: true })
+  const handleItemClick = (selectedValue: string): void => {
+    customSetValue
+      ? customSetValue({ value: selectedValue })
+      : setValue(selectedValue)
+    onChangeCb && onChangeCb(selectedValue)
   }
 
-  const onFocusHandler = (): void => {
+  const onFocusCb = (): void => {
     setShowMenuList(true)
   }
 
-  const onBlurHandler = (): void => {
+  const onBlurCb = (): void => {
     // TODO: consider UX improvement: a user can navigate from
     // input to options with keyboard and still see the options
     setShowMenuList(false)
@@ -61,20 +63,36 @@ const ComboBox: React.FC<ComboboxProps> = ({
       )
     }
     if (options !== undefined) {
-      return options.map(({ value, id }, i) => (
+      return options.map(({ value: itemValue, id }, i) => (
         <MenuItem
           sx={{ whiteSpace: 'unset', wordBreak: 'break-all' }}
           key={id ?? i}
           onMouseDown={() => {
-            handleItemClick(value)
+            handleItemClick(itemValue)
           }}
         >
           <Typography fontSize={14} noWrap>
-            {value}
+            {itemValue}
           </Typography>
         </MenuItem>
       ))
     }
+  }
+
+  const renderInput = (): ReactNode => {
+    return (
+      <Input
+        {...rest}
+        onChange={event => {
+          setValue(event.target.value)
+          onChangeCb && onChangeCb(event.target.value)
+        }}
+        onBlur={onBlurCb}
+        value={value}
+        onFocus={onFocusCb}
+        errorText="Error message"
+      />
+    )
   }
 
   const shouldDisplayMenuList =
@@ -82,26 +100,9 @@ const ComboBox: React.FC<ComboboxProps> = ({
 
   return (
     <Box ref={inputRef}>
-      <Controller
-        name={name}
-        control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <Input
-            {...rest}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              onChangeHandler(event.target.value)
-              onChange(event)
-            }}
-            onBlur={() => {
-              onBlur()
-              onBlurHandler()
-            }}
-            value={value}
-            onFocus={onFocusHandler}
-            errorText="Error message"
-          />
-        )}
-      />
+      {renderCustomInput
+        ? renderCustomInput({ onBlurCb, onFocusCb })
+        : renderInput()}
       {shouldDisplayMenuList && (
         <Box sx={{ width: inputWidth, position: 'absolute', zIndex: 1 }}>
           <MenuList
@@ -118,4 +119,5 @@ const ComboBox: React.FC<ComboboxProps> = ({
   )
 }
 
+export { type ComboboxProps }
 export default ComboBox

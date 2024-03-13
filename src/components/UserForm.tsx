@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useDebounce from '../hooks/useDebounce'
 import useUniversities from '../hooks/useUniversities'
-import ComboBox from './common/ComboBox'
+import ReactHookFormComboBox from './react-hook-form/ComboBox'
 import ReactHookFormInput from './react-hook-form/Input'
 
 const USER_FORM_FIELDS = {
@@ -39,7 +39,7 @@ const UserForm: React.FC<Record<string, never>> = (): React.ReactNode => {
           name={USER_FORM_FIELDS.NAME}
           placeholder={t('userForm.fields.name.placeholder')}
         />
-        <ComboBox
+        <ReactHookFormComboBox
           id={USER_FORM_FIELDS.UNIVERSITY}
           name={USER_FORM_FIELDS.UNIVERSITY}
           labelText={t('userForm.fields.university.labelText')}
@@ -47,7 +47,7 @@ const UserForm: React.FC<Record<string, never>> = (): React.ReactNode => {
           disabled={methods.formState.isSubmitting}
           isLoading={isLoading}
           isError={isError}
-          onChangeHandler={setUniversityName}
+          onChangeCb={setUniversityName}
           options={universities?.map(university => ({
             value: university?.name,
           }))}
